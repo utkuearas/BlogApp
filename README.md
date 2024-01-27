@@ -200,6 +200,3 @@ Current user is detected automatically by JWT. It deletes all the posts and comm
 >localhost:3000/account/delete
 >```
 
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
-_________________________________________________
-Powered By: [postman-to-markdown](https://github.com/bautistaj/postman-to-markdown/)
