@@ -1,0 +1,706 @@
+{
+	"info": {
+		"_postman_id": "fb99214c-7113-429f-9ea7-64726cdbc157",
+		"name": "CONQUERER BLOG APP",
+		"description": "Welcome to Conquerer Blog App REST API documentation.\n\nFirst of all, all the endpoints return a JSON datatype response and require cookies in order to send Json Web Tokens easily, automatically and securely thanks to httpOnly option. There are only 2 endpoints which don't require JWT and those are Register and Login endpoints. All the request data have to send via Body ( urlencoded ) expect JWT. JWTs're automatic thanks to cookies by default.\n\nLet's check our API.\n\n**Known Error Codes**\n\n- \\-1 - Login is required\n- 0 - This email is already exist\n- 1 - Inapproprate request\n- 2 - Password length must be at least 8 characters\n- 3 - Invalid login information\n- 5 - Session is expired. Please login again.\n- 6 - Unexpedted error is occured\n- 8 - Invalid post id\n- 9 - Missing information\n- 12 - Something went wrong check your data and try again\n    \n- 13 - Unknown interval",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32464415"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "full_name",
+							"value": "Utku Erdoğanaras",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "utkuearasbusiness@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "test12345",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/register",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"register"
+					]
+				},
+				"description": "Register an user to blog all the parameters are required. It returns user information in successful request."
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "ray@klein.hiphop",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "ray_klein",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/login",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"login"
+					]
+				},
+				"description": "Login as an user, both email and password are required."
+			},
+			"response": []
+		},
+		{
+			"name": "Create a Post",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "title",
+							"value": "test2",
+							"type": "text"
+						},
+						{
+							"key": "body",
+							"value": "CREATE TABLE \"users\" (\n  \"id\" varchar PRIMARY KEY,\n  \"username\" varchar UNIQUE,\n  \"email\" varchar UNIQUE,\n  \"full_name\" varchar,\n  \"password\" varchar,\n  \"location\" json,\n  \"address\" varchar,\n  \"token\" varchar,\n  \"is_deleted\" boolean,\n  \"deleted_at\" timestamp\n);\n\nCREATE TABLE \"posts\" (\n  \"id\" varchar PRIMARY KEY,\n  \"user_id\" varchar,\n  \"title\" varchar,\n  \"body\" text,\n  \"category\" varchar,\n  \"created_at\" timestamp,\n  \"updated_at\" timestamp,\n  \"comment_count\" integer,\n  \"is_deleted\" boolean,\n  \"deleted_at\" timestamp\n);\n\nCREATE TABLE \"comments\" (\n  \"id\" varchar PRIMARY KEY,\n  \"user_id\" varchar,\n  \"text\" varchar,\n  \"post_id\" varchar,\n  \"created_at\" timestamp,\n  \"updated_at\" timestamp,\n  \"is_deleted\" boolean,\n  \"deleted_at\" timestamp\n);\n\nALTER TABLE \"posts\" ADD FOREIGN KEY (\"user_id\") REFERENCES \"users\" (\"id\");\nALTER TABLE \"comments\" ADD FOREIGN KEY (\"post_id\") REFERENCES \"posts\" (\"id\");\nALTER TABLE \"comments\" ADD FOREIGN KEY (\"user_id\") REFERENCES \"users\" (\"id\");",
+							"type": "text"
+						},
+						{
+							"key": "category",
+							"value": "Artificial Intelligence",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/posts/create",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"posts",
+						"create"
+					]
+				},
+				"description": "Create a post via title, body and category information. Category have to be one of these 'Artificial Intelligence' , 'Money' or 'Business'. Title have to be lower than 50 characters and Body have to be greater than 500 characters. It returns 'Success' message and post_id in the JSON."
+			},
+			"response": []
+		},
+		{
+			"name": "Comment to Post",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "post_id",
+							"value": "c80384f1-c548-4320-8de6-c404532dc9aa",
+							"type": "text"
+						},
+						{
+							"key": "text",
+							"value": "test",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/comments/create",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"comments",
+						"create"
+					]
+				},
+				"description": "For comment to post endpoint, both ID of a post and text are required. It returns comment_id in JSON."
+			},
+			"response": []
+		},
+		{
+			"name": "Search Post",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "query",
+							"value": "Ali",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/posts/search",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"posts",
+						"search"
+					]
+				},
+				"description": "For search endpoint, query parameter is required in order to search Titles of the posts. It returns a list of blog posts which is sorted by last updated timestamp."
+			},
+			"response": []
+		},
+		{
+			"name": "View All Posts",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1NTE1NWVkMC1jZTRlLTRlMDUtOTY0Zi1iZTc2MzY2Mzk4MDMiLCJpYXQiOjE3MDU3OTMxMDcsImV4cCI6MTcwNTc5NjcwN30.ZYP-p1xc9HFx4TUCXSZhp1iYW_yInfs6RfnW2MKabbg",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/posts/viewAll",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"posts",
+						"viewAll"
+					]
+				},
+				"description": "View all the posts in the blog. It returns all the posts which is stored by last updated timestamp."
+			},
+			"response": []
+		},
+		{
+			"name": "View a Post",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "post_id",
+							"value": "6492048a3be7300576cdd6c3",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/posts/view",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"posts",
+						"view"
+					]
+				},
+				"description": "Addition of View All Posts endpoint, it returns posts body context as a response. post_id parameter is mandatory."
+			},
+			"response": []
+		},
+		{
+			"name": "View The Comments of a Post",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "post_id",
+							"value": "6492048a3be7300576cdd6c3",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/posts/viewPostComments",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"posts",
+						"viewPostComments"
+					]
+				},
+				"description": "View the comments of a post which is sorted by last updated timestamp. post_id is mandatory parameter."
+			},
+			"response": []
+		},
+		{
+			"name": "View My Posts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/posts/myPosts",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"posts",
+						"myPosts"
+					]
+				},
+				"description": "It returns all the posts which is written by current user. Current user is determined by Json Web Token which should be provided by httpOnly cookies."
+			},
+			"response": []
+		},
+		{
+			"name": "View My Comments",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/comments/myComments",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"comments",
+						"myComments"
+					]
+				},
+				"description": "It returns all the comments which is written to current user's posts. Current user is determined by Json Web Token which should be provided by httpOnly cookies."
+			},
+			"response": []
+		},
+		{
+			"name": "View Posts by Category",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "category",
+							"value": "Artificial Intelligence",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/posts/viewByCategory",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"posts",
+						"viewByCategory"
+					]
+				},
+				"description": "It returns all the Posts which is filtered by the Category ( required parameter ). It is sorted by last updated timestamp."
+			},
+			"response": []
+		},
+		{
+			"name": "Update a Post",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "title",
+							"value": "TEST 3",
+							"type": "text"
+						},
+						{
+							"key": "body",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "post_id",
+							"value": "73c713ae-eda4-493c-a5df-dcc8f7ae1dd2",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/posts/update",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"posts",
+						"update"
+					]
+				},
+				"description": "For updating a post, at least one of the parameter have to be given ( title and body ). post_id is mandatory parameter. It returns process result information."
+			},
+			"response": []
+		},
+		{
+			"name": "Update a comment",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "text",
+							"value": "TEST123",
+							"type": "text"
+						},
+						{
+							"key": "comment_id",
+							"value": "fa8b222e-bc98-4a08-8c2a-3e1737b01019",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/comments/update",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"comments",
+						"update"
+					]
+				},
+				"description": "For updating a comment, both post_id and text are mandatory. It returns process result information."
+			},
+			"response": []
+		},
+		{
+			"name": "Change Password",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "password",
+							"value": "test",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/account/changePassword",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"account",
+						"changePassword"
+					]
+				},
+				"description": "For changing password, password is mandatory parameter. It returns process result information."
+			},
+			"response": []
+		},
+		{
+			"name": "Update Profile",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "location",
+							"value": "{\"lat\": 41, \"long\": 39}",
+							"type": "text"
+						},
+						{
+							"key": "address",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/account/update",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"account",
+						"update"
+					]
+				},
+				"description": "For updating profile, at least one of the parameter have to be given ( location and address ). Location have to be in JSON format as described in example. It returns process result information."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Post",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "post_id",
+							"value": "d74c6f2d-c03d-4aa6-af6f-f537a15837b3",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/posts/delete",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"posts",
+						"delete"
+					]
+				},
+				"description": "For deleting a post, post_id is mandatory. It returns process result information."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Comment",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "comment_id",
+							"value": "67723701-66fd-4c4c-b9fb-eecf24716c6d",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/comments/delete",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"comments",
+						"delete"
+					]
+				},
+				"description": "For deleting a comment, comment_id is mandatory. It returns process result information."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Account",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "localhost:3000/account/delete",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"account",
+						"delete"
+					]
+				},
+				"description": "Current user is detected automatically by JWT. It deletes all the posts and comments comes from current user."
+			},
+			"response": []
+		},
+		{
+			"name": "Show Category Rates",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/category/rates",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"category",
+						"rates"
+					]
+				},
+				"description": "It shows category rates based on the posts which is published in all time range."
+			},
+			"response": []
+		},
+		{
+			"name": "Show User Stats",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "localhost:3000/users/rates",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"rates"
+					]
+				},
+				"description": "It shows user behaviour stats. Basicly there are 2 categories: Viewers and Blog Writers"
+			},
+			"response": []
+		},
+		{
+			"name": "Time Series Histogram",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "interval",
+							"value": "This Year",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/posts/histogram",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"posts",
+						"histogram"
+					]
+				},
+				"description": "Based on the given interval, shows time series histogram data of the published posts. Interval options:  \n\"This Year\"  \n\"This Month\"  \n\"This Week\"  \n  \nPlease check example request for response format"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": "1"
+		},
+		{
+			"key": "base_url",
+			"value": "https://postman-rest-api-learner.glitch.me/"
+		}
+	]
+}
